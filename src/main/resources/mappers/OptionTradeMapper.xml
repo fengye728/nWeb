@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aolangtech.nsignalweb.mappers.OptionTradeMapper">
+
+  <resultMap id="BaseResultMap" type="com.aolangtech.nsignalweb.models.OptionTradeModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="stock_symbol" property="stockSymbol" />
+    <result column="expiration" property="expiration" />
+    <result column="call_put" property="callPut" />
+    <result column="strike" property="strike" />
+    <result column="event_day" property="eventDay" />
+    <result column="event_time" property="eventTime" />
+    <result column="price" property="price" />
+    <result column="size" property="size" />
+    <result column="previous_price" property="previousPrice" />
+    <result column="ask_price" property="askPrice" />
+    <result column="trade_ask_interval" property="tradeAskInterval" />
+    <result column="ask_ask_interval" property="askAskInterval" />
+    <result column="bid_price" property="bidPrice" />
+    <result column="trade_bid_interval" property="tradeBidInterval" />
+    <result column="bid_bid_interval" property="bidBidInterval" />
+    <result column="report_exg" property="reportExg" />
+    <result column="condition" property="condition" />
+    <result column="sequence_id" property="sequenceId" />
+    <result column="direction" property="direction" />
+    <result column="leg_sequence_id" property="legSequenceId" />
+    <result column="big_trade" property="bigTrade" />
+  </resultMap>
+  
+  <select id="selectByEventDay" resultMap="BaseResultMap">
+	SELECT *
+	FROM ${tableName}
+	WHERE stock_symbol = ${stockSymbol}
+		AND event_day = ${eventDay}
+	    AND expiration = ${expiration}
+	    AND strike = ${strike}
+	    AND call_put = ${callPut}
+	ORDER BY stock_symbol, event_day, event_time
+  </select>
+
+  <select id="selectBySequenceId" resultMap="BaseResultMap">
+	SELECT *
+	FROM ${tableName}
+	WHERE stock_symbol = ${stockSymbol}
+		AND event_day = ${eventDay}
+	    AND report_exg = ${reportExg}
+	    AND sequence_id = ${sequenceId}
+  </select>
+  
+</mapper>

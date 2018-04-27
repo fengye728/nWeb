@@ -1,0 +1,89 @@
+<form name="chargeForm" class="form-horizontal">
+
+    <div ng-class="['form-group', chargeForm.driver.$invalid ? 'has-error' : '']">
+        <label class="col-md-5 control-label">车   辆：</label>
+        <div class="col-md-7">
+	        <input name="driver" type="text" class="form-control" ng-model="driverDisplay" 
+	        data-provide="typeahead" bs3-typeahead bs3-items="all" bs3-minLength="0" autocomplete="off" bs3-promise="users" bs3-updater="updateTypeahead" bs3-displayText="displayText" required/>
+        </div>
+    </div>
+    
+    <div ng-class="['form-group', chargeForm.invoceNumber.$invalid ? 'has-error' : '']">
+        <label class="col-md-5 control-label">发票号码：</label>
+        <div class="col-md-7">
+        	<input id="invoceNumber" name="chargeType" type="text" class="form-control" ng-model="chargeDetail.invoceNumber"/>
+        </div>
+    </div>    
+
+    <div ng-class="['form-group', chargeForm.occurDt.$invalid ? 'has-error' : '']">
+	    <label class="col-sm-5 control-label" >时间：</label>
+    	<div class="col-sm-7">
+	        <input name="occurDt" type="date" class="form-control" ng-disabled="!isDetailEditable" ng-model="chargeDetail.occurDt" max="{{nowDate | date : 'yyyy-MM-dd'}}" required/>
+    	</div>	    
+    </div>	
+    <div ng-class="['form-group', chargeForm.chargeType.$invalid ? 'has-error' : '']">
+        <label class="col-md-5 control-label">类型：</label>
+        <div class="col-md-7">
+        	<input id="chargeType" name="chargeType" type="text" class="form-control" ng-model="chargeDetail.chargeType"/>
+        </div>
+    </div>
+
+    <div ng-class="['form-group', chargeForm.amount.$invalid ? 'has-error' : '']">
+        <label class="col-sm-5 control-label">金额：</label>
+    	<div class="col-sm-7">
+			<input name="amount" type="number" step="0.01" class="form-control" ng-disabled="!isDetailEditable" ng-model="chargeDetail.amount" required/>
+    	</div>
+    </div>
+    
+    <div class="form-group">
+        <label class="col-md-5 control-label">创 建 日 期：</label>
+    	<div class="col-md-7 form-control-static">
+        	<label class="label label-info" ng-bind="chargeDetail.createDt | date : DATE_FORMAT"></label>
+    	</div>
+    </div>
+
+    <div class="form-group">
+         <label class="col-md-5 control-label">上次更新日期：</label>
+    	<div class="col-md-7 form-control-static">
+        	<label class="label label-info" ng-bind="chargeDetail.lastUpdateDt | date : DATE_FORMAT"></label>
+    	</div>
+    </div>
+
+    <div class="form-group">
+	    <div class="col-md-4 col-md-offset-4">
+	       	<button type="button" class="btn btn-default" style="width:100%" ng-click="printCharge()">打 印</button>
+	    </div>
+    </div>  
+      
+    <div id="dmsChargeView">
+    	<table border="1" style="height:150px;width:100%">
+    		<caption style="text-align:left">
+    			No.{{ chargeDetail.invoceNumber }}
+    			<hr style="margin:0 1px"/>
+    		</caption>
+    		<caption>大连渤海汽车出租公司内部交款单</caption>
+    		<caption>{{ chargeDetail.occurDt | date : 'yyyy年MM月dd日'}}</caption>
+    		<tr>
+	    		<th>车 号</th>
+	    		<th>姓 名</th>
+	    		<th>摘 要</th>
+	    		<th>交款金额</th>
+    		</tr>
+    		<tr>
+	    		<td>{{ chargeDetail.carNumber }}</td>
+	    		<td>{{ chargeDetail.driverName}}</td>
+	    		<td>{{ chargeDetail.chargeType }}</td>
+	    		<td>{{ chargeDetail.amount }}</td>    			
+    		</tr>
+    		<tr>
+	    		<th colspan="2" style="text-align:left">人民币：（大写金额）</th>
+	    		<td colspan="2">{{ chargeDetail.amount | amountToCapMoney}}</td>    			
+    		</tr>    		
+    	</table>
+    </div>
+</form>
+<style type="text/css">
+#dmsChargeView table th,td,caption {
+	text-align:center
+}
+</style>
