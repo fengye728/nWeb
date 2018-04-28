@@ -4,12 +4,10 @@
     <meta charset="utf-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="司机管理系统"></meta>
-    <meta name="author" content="Maple.S"></meta>
-
+    <meta name="description" content="nSignalWeb"></meta>
     <link rel="icon" href="/global/img/favicon.ico"></link>
 
-    <title>司机管理系统</title>
+    <title>nSignalWeb</title>
 
     <link rel="stylesheet" href="/global/plugins/bootstrap-3.3.7/css/bootstrap.min.css"></link>
     <link rel="stylesheet" href="/global/plugins/bootstrap-3.3.7/css/bootstrap-theme.min.css"></link>
@@ -55,9 +53,8 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li><a ui-sref="userManagement" ui-sref-active="active">Gourd Search</a></li>
-                <li><a ui-sref="complaintManagement" ui-sref-active="active">投诉管理</a></li>
-                <li><a ui-sref="accidentManagement" ui-sref-active="active">事故管理</a></li>
+                <li><a ui-sref="gourdSearch" ui-sref-active="active">Gourd Search</a></li>
+                <li><a ui-sref="complaintManagement" ui-sref-active="active">Normal Search</a></li>
                 <li><a ui-sref="userManagement" ui-sref-active="active">User Management</a></li>
             </ul>
         </div>
@@ -128,10 +125,8 @@
 <script src="/internal/AdminContents/dashboard.js"></script>
 <script src="/internal/AdminContents/ng-table-necessary.js" ></script>
 
+<script src="/internal/AdminContents/gourdSearch/gourd-search.js"></script>
 <script src="/internal/AdminContents/userManagement/user-management.js"></script>
-<script src="/internal/AdminContents/complaintManagement/complaint-management.js"></script>
-<script src="/internal/AdminContents/accidentManagement/accident-management.js"></script>
-<script src="/internal/AdminContents/chargeManagement/charge-management.js"></script>
 
 <script src="/global/templates/user-info/user-info.js" ></script>
 <script src="/global/templates/complaint-info/complaint-info.js"></script>

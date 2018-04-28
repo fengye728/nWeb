@@ -15,10 +15,10 @@ body {
     background-color: white;
 }
 .form-signin .form-signin-heading {
-    font-family: SigmarOne-Regular;
     text-align: center;
-    font-size:110px;
-    color: rgb(45,82,255);
+    font-size:100px;
+    color: rgb(98, 122, 236);
+    margin-bottom: 30px;
 }
 
 .header-two {

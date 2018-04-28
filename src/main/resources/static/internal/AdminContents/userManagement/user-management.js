@@ -7,11 +7,11 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
 		var ctrl = this;
         // Init ctrl
         ctrl.DATE_FORMAT = window.tsc.constants.DATE_FORMAT;
-        ctrl.editableMode = window.tsc.constants.USER_INFO_MODE.ADMIN_MODE;
         ctrl.isFormValid;
-        ctrl.isAccountIdValid = true;
         ctrl.selectedUserIdList = [];
         ctrl.clickedUser = null;
+        
+        ctrl.userRoleCategoryList = ["ROLE_ADMIN", "ROLE_USER"];
         
         getAllUsers();
 
@@ -19,11 +19,11 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
 
 		function getTableParams() {
 			var initialParams = {
-				count: 10,
+				count: 25,
 				sorting: {createdDt: "desc"}
 			};
 			var initialSettings = {
-				counts: [10, 25, 50, 100],
+				counts: [25, 50, 100],
 				paginationMaxBlocks: 13,
 				paginationMinBlocks: 2,
 				dataset: ctrl.users
@@ -31,53 +31,12 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
 			return new NgTableParams(initialParams, initialSettings);
 		}
 		
-// -------------- Add function And Delte function ------------------------
-		ctrl.checkAccountId = function(row){
-			var defered = $q.defer();
-			
-			// Compatible the case that accountId fied is empty 
-			if(typeof row.idNo == 'undefined'){
-				defered.reject(false);
-				return defered.promise;
-			}
-
-			// Get the original row
-            var index = _.findIndex(ctrl.originalData, function(r){
-                return r.id === row.id;
-            });
-            
-            if(index >= 0){
-            	// check if the original row's accountId is similar with the new row when original row existed   
-    			var originAccountId = ctrl.originalData[index].idNo;
-    			
-    			if(originAccountId == row.idNo){
-    				ctrl.isAccountIdValid = true;
-    				defered.resolve(true);
-    				return defered.promise;
-    			}
-            }
-
-			// Check the accountId
-			$http.get('/driver/checkIdNo',{
-				params : {
-					idNo : row.idNo
-				}
-			}).success(function(response){
-				if(response == '') {
-					response = true;
-				} else {
-					response = false;
-				}
-               ctrl.isAccountIdValid = response;
-               defered.resolve(response);
-            }).error(function(response){
-                ctrl.isAccountIdValid = false;
-                toastr.error("检查身份证号失败！");
-                defered.reject(false);
-            });
-			
-			return defered.promise;
-		}		
+// -------------- Add function And Delete function ------------------------
+		ctrl.clickDetail = function(row) {
+			ctrl.editableMode = window.tsc.constants.USER_INFO_MODE.USER_MODE;
+			ctrl.clickedUser = row;
+			$('#userDetailModal').modal('show');
+		}
 		
 		ctrl.checkSelectStatus = function(event,row) {
 			if(event.currentTarget.checked) {
@@ -112,9 +71,9 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
                     // initialize the list
         			ctrl.selectedUserIdList = [];
         			
-        			toastr.success("删除用户信息成功！！", "Server:");
+        			toastr.success("Delete user success！！", "Server:");
                 }, function(reject){
-                    toastr.error("删除用户信息失败！", "Server Error:");
+                    toastr.error("Delete user failed！", "Server Error:");
                 });
 			}
 		};
@@ -126,36 +85,6 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
 			return _.indexOf(ctrl.selectedUserIdList, row.id) >= 0;
 		}
 		
-		/**
-		 * Import driver records in xls/xlsx file
-		 */
-		ctrl.importDrivers = function(uploadCtrlId) {
-			var importDriverInputEle = document.querySelector(uploadCtrlId);
-			
-			if(importDriverInputEle.onchange == null) {
-				
-				importDriverInputEle.onchange = function() {
-					var file = new FormData();
-					file.append('file', importDriverInputEle.files[0]);
-					$http({
-						method : 'post',
-						url: '/driver/importDrivers',
-						data : file,
-						transformRequese : angular.identity,
-						headers : {
-							'Content-Type' : undefined
-						}
-					}).success(function(count){
-						toastr.success('导入 ' + count + ' 条记录！');
-					}).error(function() {
-						toastr.error('导入记录失败！');
-					});
-				}
-				
-			} 
-			importDriverInputEle.click();
-
-		}
 // ------------------ ng-table functions ----------------------
 		ctrl.delRowsByIdList = function (idList) {
             // remove these users in ng-table
@@ -173,137 +102,60 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
 		};
 		
 // ------------------ Model functions  ----------------------------------
-		function setDefaultPicture(userWithDetail) {
-			var defaultPicturePath = "\\global\\img";
-			
-			if(typeof(userWithDetail.drivingLicensePath) == 'undefined' || userWithDetail.drivingLicensePath == null) {
-				userWithDetail.drivingLicensePath = defaultPicturePath;
-			}
-			
-			if(typeof(userWithDetail.certificatePath) == 'undefined' || userWithDetail.certificatePath == null) {
-				userWithDetail.certificatePath = defaultPicturePath;
-			}
-			
-			if(typeof(userWithDetail.vehicleTravelLicensePath) == 'undefined' || userWithDetail.vehicleTravelLicensePath == null) {
-				userWithDetail.vehicleTravelLicensePath = defaultPicturePath;
-			}
-			
-			if(typeof(userWithDetail.driverDetailModel.insurancePhotoPath) == 'undefined' || userWithDetail.driverDetailModel.insurancePhotoPath == null) {
-				userWithDetail.driverDetailModel.insurancePhotoPath = defaultPicturePath;
-			}
-			
-			if(typeof(userWithDetail.driverDetailModel.contractPhotoPath) == 'undefined' || userWithDetail.driverDetailModel.contractPhotoPath == null) {
-				userWithDetail.driverDetailModel.contractPhotoPath = defaultPicturePath;
-			}
-		}
-		
 		ctrl.openAddUserWithDetail = function(){
 			// init
             ctrl.clickedUser = {};
-            ctrl.clickedUser.driverDetailModel = {};
-            
-            setDefaultPicture(ctrl.clickedUser);
-            
+            ctrl.editableMode = window.tsc.constants.USER_INFO_MODE.ADMIN_MODE;
 			// Open modal to display user detail
             $('#userDetailModal').modal('show');
 		};
-		
-		ctrl.fitDate = function(numDate) {
-			return numDate == null ? null : new Date(numDate);
-		}
-		
-		ctrl.openUserDetail = function(row) {
-			// Get user detail 
-			$http.get('/driver/getDriverWithDetailById', {
-				params : {
-					id : row.id
-				}
-			}).success(function(response){
-				// set default picture
-				setDefaultPicture(response);
-				
-				// handle date type
-				response.driverDetailModel.certificateDt = ctrl.fitDate(response.driverDetailModel.certificateDt);
-				response.driverDetailModel.annualAudit = ctrl.fitDate(response.driverDetailModel.annualAudit);
-				response.driverDetailModel.changeCarDt = ctrl.fitDate(response.driverDetailModel.changeCarDt);
-				
-				response.driverDetailModel.insuranceStartDt = ctrl.fitDate(response.driverDetailModel.insuranceStartDt);
-				response.driverDetailModel.insuranceEndDt = ctrl.fitDate(response.driverDetailModel.insuranceEndDt);
-				
-				response.driverDetailModel.contractStartDt = ctrl.fitDate(response.driverDetailModel.contractStartDt);
-				response.driverDetailModel.contractEndDt = ctrl.fitDate(response.driverDetailModel.contractEndDt);
-				
-				if(response.substituteDriverModel != null && response.substituteDriverModel.certificateDt != null) {
-					response.substituteDriverModel.certificateDt = ctrl.fitDate(response.substituteDriverModel.certificateDt);
-				}
-				
-				ctrl.clickedUser = response;
-	    		
-				// Open modal to display user detail
-                $('#userDetailModal').modal();
-				
-			}).error(function(response){
-				toastr.error("获取司机信息失败！", 'Server Error：');
-			});
-
-		}
 		
 		/**
 		 * Save the user information and send to server for modal
 		 */ 
 		ctrl.saveUserWithDetail = function(userWithDetail) {
-            // Check the account id
-            var promise = ctrl.checkAccountId(userWithDetail);
-            promise.then(function(isValid){
 
-            	if(isValid == true) {
-                    // Check if the action is adding user or update user
-                    if(userWithDetail.id == null){
-                        // Add user
-                        var promise = addUserToServer(userWithDetail);
-                        promise.then(function(resolve){
-                            // success
-                        	
-                            // Add the row into ngtable
-                        	ctrl.tableParams.settings().dataset.push(resolve);
-                            ctrl.originalData.push(angular.copy(resolve));
-                            // reload ng-table
-                			ctrl.tableParams.reload().then(function (data) {
-                				if (data.length === 0 && ctrl.tableParams.total() > 0) {
-                					ctrl.tableParams.page(ctrl.tableParams.page() - 1);
-                					ctrl.tableParams.reload();
-                				}
-                			});
-                			
-                            $('#userDetailModal').modal('hide');
-                            ctrl.clickedUser = null;
-                        }, function(reject){
-                           toastr.error("添加司机失败！", "Server Error");
-                        });
-                    }
-                    else {
-                        // Get the original data
-                        var index = _.findIndex(ctrl.originalData, function(r){
-                            return r.id === userWithDetail.id;
-                        });
+            // Check if the action is adding user or update user
+            if(userWithDetail.id == null){
+                // Add user
+                var promise = addUserToServer(userWithDetail);
+                promise.then(function(resolve){
+                    // success
+                	
+                    // Add the row into ngtable
+                	ctrl.tableParams.settings().dataset.push(resolve);
+                    ctrl.originalData.push(angular.copy(resolve));
+                    // reload ng-table
+        			ctrl.tableParams.reload().then(function (data) {
+        				if (data.length === 0 && ctrl.tableParams.total() > 0) {
+        					ctrl.tableParams.page(ctrl.tableParams.page() - 1);
+        					ctrl.tableParams.reload();
+        				}
+        			});
+        			
+                    $('#userDetailModal').modal('hide');
+                    ctrl.clickedUser = null;
+                }, function(reject){
+                   toastr.error("Add user failed！", "Server Error");
+                });
+            }
+            else {
+                // Get the original data
+                var index = _.findIndex(ctrl.originalData, function(r){
+                    return r.id === userWithDetail.id;
+                });
 
-                        // Update the user in server
-                        $http.post('/driver/updateDriverWithDetail', userWithDetail).success(function(response){
-                            $('#userDetailModal').modal('hide');
-                            // Update the row in ngtable
-                            angular.extend(ctrl.tableParams.settings().dataset[index], userWithDetail)
-                            angular.extend(ctrl.originalData[index], userWithDetail);
-                            
-                        }).error(function(response){
-                            toastr.error('更新司机数据失败！', 'Server Error:');
-                        });
-                    }
-            	}
-            	else {
-            		toastr.error("该身份证号已存在！", "Operation Error");
-            	}
-            });
-            
+                // Update the user in server
+                $http.post('/user/updateUser', userWithDetail).success(function(response){
+                    $('#userDetailModal').modal('hide');
+                    // Update the row in ngtable
+                    angular.extend(ctrl.tableParams.settings().dataset[index], userWithDetail)
+                    angular.extend(ctrl.originalData[index], userWithDetail);
+                    
+                }).error(function(response){
+                    toastr.error('Update failed！', 'Server Error:');
+                });
+            }
 		};
 
 // ------------------------- Functions Interact with server -------------------------------
@@ -316,11 +168,7 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
 		function addUserToServer(user) {
 			var defered = $q.defer();
 			
-			$http.post('/driver/addDriver',user).success(function(response){
-				// change user birthday to type Date
-				if(response.userDetail != null && response.userDetail.birthday != null){
-					response.userDetail.birthday = new Date(response.userDetail.birthday);
-				}
+			$http.post('/user/add',user).success(function(response){
                 defered.resolve(response);
 			}).error(function(response){
 				defered.reject(null);
@@ -334,14 +182,14 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
 		 * @returns
 		 */
 		function getAllUsers() {
-			$http.get('/driver/getAllDriverBase').success(function (response) {
+			$http.get('/user/getAll').success(function (response) {
 				ctrl.users = response;
 				ctrl.tableParams.settings({
 					dataset: ctrl.users
 				});
 				ctrl.originalData = angular.copy(ctrl.users);
 			}).error(function (response) {
-				toastr.error("获取司机信息失败!");
+				toastr.error("Get users failed!");
 			});
 		}
 
@@ -354,7 +202,7 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
 		function deleteUsersFromServer(rowIdList){
 			var defered = $q.defer();
 			
-			$http.post('/driver/removeDriverList', rowIdList).success(function(response){
+			$http.post('/user/removeUserList', rowIdList).success(function(response){
                defered.resolve(true);
             }).error(function(response){
                 defered.reject(false);

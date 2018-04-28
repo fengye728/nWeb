@@ -1,0 +1,87 @@
+<div>
+    <h1 class="page-header">Gourd Search</h1>
+    <table ng-table="$ctrl.tableParams" style="text-align:center"  class="table table-bordered table-striped table-hover">
+        <tr ng-repeat="row in $data">
+        
+            <td data-title="'event_day'" filter="{eventDay : 'number'}" sortable="'eventDay'">
+                <span>{{row.eventDay}</span>
+            </td>
+            <td data-title="'stock_symbol'" filter="{stockSymbol : 'text'}" sortable="'stockSymbol'">
+                <span><a ng-click="$ctrl.clickDetail(row)" style="cursor: pointer;">{{row.stockSymbol}}</a></span>
+            </td>
+                       
+            <td data-title="'call_put'" filter="{callPut : 'text'}" sortable="'callPut'">
+                <span>{{row.callPut}}</span>
+            </td>
+            
+            <td data-title="'direction'" filter="{ direction : 'number'}" sortable="'direction'">
+                <span>{{row.direction}}</span>
+            </td>
+            
+            <td data-title="'expiration'" filter="{expiration : 'number'}" sortable="'expiration'" >
+        	    <span>{{row.expiration}}</span>
+            </td>
+            
+            <td data-title="'strike'" filter="{strike : 'number'}" sortable="'strike'">
+                <span>{{row.strike}}</span>
+            </td>
+
+            <td data-title="'stock_price'" filter="{stock_price : 'number'}" sortable="'stock_price'">
+                <span>{{row.stock_price}}</span>
+            </td>
+            
+            <td data-title="'price'" filter="{ price : 'number'}" sortable="'price'">
+                <span>{{row.price}}</span>
+            </td>
+            
+            <td data-title="'count'" filter="{ count : 'number'}" sortable="'count'">
+                <span>{{row.count}}</span>
+            </td>
+            
+            <td data-title="'volume'" filter="{ volume : 'number'}" sortable="'volume'">
+                <span>{{row.volume}}</span>
+            </td>
+
+            <td data-title="'oi_a'" filter="{ oi_a : 'number'}" sortable="'oi_a'">
+                <span>{{row.oi_a}}</span>
+            </td>
+            
+            <td data-title="'oi_change'" filter="{ oi_change : 'number'}" sortable="'oi_change'">
+                <span>{{row.oi_change}}</span>
+            </td>
+            
+            <td data-title="'millionD'" filter="{ millionD : 'number'}" sortable="'millionD'">
+                <span>{{row.millionD}}</span>
+            </td>
+            
+            <td data-title="'maxD'" filter="{ maxD : 'number'}" sortable="'maxD'">
+                <span>{{row.maxD}}</span>
+            </td>
+                                 
+            <td data-title="'pattern'" filter="{ pattern : 'number'}" sortable="'pattern'">
+                <span>{{row.pattern}}</span>
+            </td>       
+            
+            <td data-title="'option_cap'" filter="{ option_cap : 'number'}" sortable="'option_cap'">
+                <span>{{row.option_cap}}</span>
+            </td>
+
+            <td data-title="'market_cap'" filter="{ market_cap : 'number'}" sortable="'market_cap'">
+                <span>{{row.market_cap}}</span>
+            </td>
+            
+            <td data-title="'sp_rank'" filter="{ sp_rank : 'number'}" sortable="'sp_rank'">
+                <span>{{row.sp_rank}}</span>
+            </td>                   
+            <td data-title="'omc_rank'" filter="{ omc_rank : 'number'}" sortable="'omc_rank'">
+                <span>{{row.omc_rank}}</span>
+            </td>
+            
+            <td>
+            	<span><a ng-click="$ctrl.openTrade(row)" style="cursor: pointer;">Detail</a></span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+

@@ -5,20 +5,20 @@ dashboardApp.config(function($stateProvider){
 	   
    var complaintManagementState = {
      name : 'gourdSearch',
-     url : '/complaint-management',
+     url : '/gourd-search',
      component: 'gourdSearch'
    };
    
-   var accidentManagementState = {
-     name : 'accidentManagement',
-     url : '/accident-management',
-     component : 'accidentManagement'
+   var gourdSearchState = {
+     name : 'gourd-search',
+     url : '/gourd-search',
+     component : 'gourdSearch'
    };
 
-   var chargeManagementState = {
-     name : 'chargeManagement',
-     url : '/charge-management',
-     component : 'chargeManagement'
+   var gourdSearchState = {
+     name : 'gourdSearch',
+     url : '/gourd-search',
+     component : 'gourdSearch'
    };   
    
    var userManageState = {
@@ -27,9 +27,7 @@ dashboardApp.config(function($stateProvider){
 		   component : 'userManagement'
    };
    
-    $stateProvider.state(complaintManagementState);
-    $stateProvider.state(accidentManagementState);
-    $stateProvider.state(chargeManagementState);
+    $stateProvider.state(gourdSearchState);
     $stateProvider.state(userManageState);
     
 }).config(function($httpProvider){
@@ -56,8 +54,7 @@ dashboardApp.config(function($stateProvider){
 			alert("错误：新密码与旧密码相同！");
 			return;		
 		}
-		$http.post('/authUpdate', user).success(function(response){
-			console.log(response);
+		$http.post('/user/updatePassword', user).success(function(response){
 			if(response == "1"){
 				alert("错误：旧密码错误，修改密码失败！");
 				
@@ -77,10 +74,5 @@ dashboardApp.config(function($stateProvider){
 			console.log(response);
 		});
 	}
-	
-//	serverService.getUserWithDetailFromServer(userId).success(function(response){
-//		$scope.logedUser = response;
-//	});
-	
 });
 $('#CSRF-TOKEN')[0].value = window.tsc.utils.getValueFromCookieByParam(window.tsc.constants.COOKIE_PARAM.TOKEN);

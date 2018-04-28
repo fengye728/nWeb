@@ -1,8 +1,8 @@
 /**
  * Created by Maple on 2017/4/13.
  */
-angular.module(window.tsc.constants.DASHBOARD_APP).component('chargeManagement', {
-    templateUrl : '/internal/AdminContents/chargeManagement/charge-management.html',
+angular.module(window.tsc.constants.DASHBOARD_APP).component('gourdSearch', {
+    templateUrl : '/internal/AdminContents/gourdSearch/gourd-search.html',
     controller : function($http, NgTableParams, $q, toastr) {
 		var ctrl = this;
         // Init ctrl
