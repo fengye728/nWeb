@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aolangtech.nsignalweb.mappers.AuthorizationModelMapper">
+
+  <resultMap id="BaseResultMap" type="com.aolangtech.nsignalweb.models.AuthorizationModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" property="username" />
+    <result column="password" property="password" />
+    <result column="role" property="role" />
+    <result column="is_active" property="isActive" />
+  </resultMap>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+  	SELECT *
+  	FROM "authorization"
+  	WHERE is_active = true
+  </select>
+  
+  <update id="selectByBetweenEventDay" parameterType="java.lang.String">
+	UPDATE "authorization"
+	SET is_active = false
+	WHERE username = #{username}
+  </update>
+  
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.aolangtech.nsignalweb.models.AuthorizationModel" useGeneratedKeys="true">
+  	INSERT INTO "authorization"(username, password, role)
+  	VALUES(#{username}, #{password}, #{role})
+  </insert>
+  
+  <update id="updatePassword" parameterType="java.lang.String">
+	UPDATE "authorization"
+	SET password = #{password}
+	WHERE username = #{username}
+  </update>
+  
+</mapper>
