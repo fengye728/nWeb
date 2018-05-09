@@ -27,12 +27,12 @@ public class UserController extends BaseController {
 	}
 	
 	@PostMapping(value = "/remove")
-	public int removeUser(AuthorizationModel user) {
+	public int removeUser(@RequestBody AuthorizationModel user) {
 		return authorizationService.removeUserByUsername(user.getUsername());
 	}
 	
 	@PostMapping(value = "/add")
-	public AuthorizationModel addUser(AuthorizationModel user) {
+	public AuthorizationModel addUser(@RequestBody AuthorizationModel user) {
 		// insert function will setting id into user
 		int count = authorizationService.addUser(user);
 		if(count > 0) {
@@ -69,7 +69,7 @@ public class UserController extends BaseController {
 	}
 	
 	@PostMapping(value = "/removeUserList")
-	public int removeUserList(List<Long> idList) {
+	public int removeUserList(@RequestBody List<Long> idList) {
 		return authorizationService.removeUserByIdList(idList);
 
 	}

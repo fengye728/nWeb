@@ -2,7 +2,7 @@
 	<form name="userDetailForm" class="form-horizontal">
 	
 	    <div ng-class="['form-group', userDetailForm.username.$invalid ? 'has-error' : '']">
-		    <label class="col-sm-5 control-label">username:</label>
+		    <label class="col-sm-5 control-label">Username:</label>
 	    	<div class="col-sm-7">
 		        <input name="username" type="text" class="form-control" ng-model="userWithDetail.username" ng-disabled="!isBaseEditable" required/>
 	    	</div>
@@ -16,7 +16,7 @@
 	    </div>
 
 	    <div ng-class="['form-group', userDetailForm.role.$invalid ? 'has-error' : '']">
-		    <label class="col-sm-5 control-label">role:</label>
+		    <label class="col-sm-5 control-label">Role:</label>
 	    	<div class="col-sm-7">
 		        <select name="role" ng-model="userWithDetail.role" class="form-control" ng-options="role for role in userRoleCategory"  required>
 	            </select>

@@ -56,7 +56,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Transactional(value = "transactionManager", rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public int addUser(AuthorizationModel user) {
-		if(user == null || user.getId() == null || user.getUsername() == null || user.getPassword() == null || user.getRole() == null) {
+		if(user == null || user.getUsername() == null || user.getPassword() == null || user.getRole() == null) {
 			return 0;
 		}
 		return authorizationModelMapper.insert(user);

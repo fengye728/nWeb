@@ -10,6 +10,7 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
         ctrl.isFormValid;
         ctrl.selectedUserIdList = [];
         ctrl.clickedUser = null;
+        ctrl.editableMode = window.tsc.constants.USER_INFO_MODE.ADMIN_MODE;
         
         ctrl.userRoleCategoryList = ["ROLE_ADMIN", "ROLE_USER"];
         
@@ -33,7 +34,6 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
 		
 // -------------- Add function And Delete function ------------------------
 		ctrl.clickDetail = function(row) {
-			ctrl.editableMode = window.tsc.constants.USER_INFO_MODE.USER_MODE;
 			ctrl.clickedUser = row;
 			$('#userDetailModal').modal('show');
 		}
@@ -105,7 +105,6 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
 		ctrl.openAddUserWithDetail = function(){
 			// init
             ctrl.clickedUser = {};
-            ctrl.editableMode = window.tsc.constants.USER_INFO_MODE.ADMIN_MODE;
 			// Open modal to display user detail
             $('#userDetailModal').modal('show');
 		};
@@ -135,8 +134,9 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
         			
                     $('#userDetailModal').modal('hide');
                     ctrl.clickedUser = null;
+                    toastr.success('Add user success!');
                 }, function(reject){
-                   toastr.error("Add user failed！", "Server Error");
+                	toastr.error("Add user failed！", "Server Error");
                 });
             }
             else {
@@ -151,9 +151,9 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('userManagement', {
                     // Update the row in ngtable
                     angular.extend(ctrl.tableParams.settings().dataset[index], userWithDetail)
                     angular.extend(ctrl.originalData[index], userWithDetail);
-                    
+                    toastr.success('Update user success!');
                 }).error(function(response){
-                    toastr.error('Update failed！', 'Server Error:');
+                    toastr.error(response.reason, 'Update failed:');
                 });
             }
 		};

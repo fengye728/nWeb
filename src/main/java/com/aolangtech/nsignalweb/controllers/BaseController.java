@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -42,8 +43,8 @@ public class BaseController {
 	public Map<String, Object> handleExceptions(Exception exc){
 		Map<String, Object> map = new HashMap<>();
 		String errorMsg = null;
-		if(exc instanceof Exception){
-			errorMsg = exc.getMessage();
+		if(exc instanceof DuplicateKeyException){
+			errorMsg = "主键已存在";
 		}
 		else {
 			errorMsg = exc.getMessage();
