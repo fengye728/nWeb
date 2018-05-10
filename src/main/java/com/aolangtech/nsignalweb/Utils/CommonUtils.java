@@ -28,7 +28,7 @@ public class CommonUtils {
 		int yy = eventDay / 10000;
 		int MM = eventDay % 10000 / 100;
 		int q = MM / 4 + 1;
-		return yy * 100 + q;
+		return yy * 10 + q;
 	}
 	
 	public static int increaseQuarter(int quarter) {

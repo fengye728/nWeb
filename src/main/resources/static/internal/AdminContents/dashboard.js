@@ -9,10 +9,10 @@ dashboardApp.config(function($stateProvider){
      component: 'gourdSearch'
    };
    
-   var gourdSearchState = {
-     name : 'gourd-search',
-     url : '/gourd-search',
-     component : 'gourdSearch'
+   var oiChartState = {
+     name : 'oiChart',
+     url : '/oi-chart',
+     component : 'oiChart'
    };
 
    var gourdSearchState = {
@@ -28,6 +28,7 @@ dashboardApp.config(function($stateProvider){
    };
    
     $stateProvider.state(gourdSearchState);
+    $stateProvider.state(oiChartState);
     $stateProvider.state(userManageState);
     
 }).config(function($httpProvider){

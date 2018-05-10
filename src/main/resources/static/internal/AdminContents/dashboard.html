@@ -51,15 +51,15 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+        <div class="col-sm-3 col-md-1 sidebar">
             <ul class="nav nav-sidebar">
                 <li><a ui-sref="gourdSearch" ui-sref-active="active">Gourd Search</a></li>
-                <li><a ui-sref="complaintManagement" ui-sref-active="active">Normal Search</a></li>
-                <li><a ui-sref="userManagement" ui-sref-active="active">User Management</a></li>
+                <li><a ui-sref="oiChart" ui-sref-active="active">OI Chart</a></li>
+                <li><a ui-sref="userManagement" ui-sref-active="active">User Mag</a></li>
             </ul>
         </div>
         
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-9 col-sm-offset-3 col-md-11 col-md-offset-1 main">
             <ui-view></ui-view>
         </div>
     </div>
@@ -114,6 +114,7 @@
 <script src="/global/plugins/bootstrap3-typeahead.js"></script>
 <script src="/global/plugins/angular-bootstrap3-typeahead.js"></script>
 <script src="/global/plugins/jQuery.print.js"></script>
+<script src="/global/plugins/highcharts.js"></script>
 
 <script src="/global/plugins/ui-router/angular-ui-router.js"></script>
 <script src="/global/plugins/ng-table/ng-table.js"></script>
@@ -127,6 +128,7 @@
 
 <script src="/internal/AdminContents/gourdSearch/gourd-search.js"></script>
 <script src="/internal/AdminContents/userManagement/user-management.js"></script>
+<script src="/internal/AdminContents/oiChart/oi-chart.js"></script>
 
 <script src="/global/templates/user-info/user-info.js" ></script>
 <script src="/global/templates/complaint-info/complaint-info.js"></script>

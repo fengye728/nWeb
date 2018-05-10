@@ -1,0 +1,39 @@
+<div>
+    <h1 class="page-header">Open Interest Chart</h1>
+    <div class="navigator">
+		<form class="form-inline">
+			<div class="form-group">
+				<label for="stockSymbol" style="margin-right:10px">Option :</label>
+				<input type="text" style="text-transform:uppercase;" onKeyUp="value=value.replace(/[^a-zA-Z]/,'')" class="form-control" id="stockSymbol" placeholder="Stock Symbol" ng-model="$ctrl.optionOIModel.stockSymbol"/>
+			</div>
+			<div class="form-group">
+				<select name="callPut" ng-model="$ctrl.optionOIModel.callPut" placeholder="Call or Put" class="form-control" ng-options="optionType for optionType in $ctrl.optionTypeCategory">
+	            </select>
+			</div>
+			<div class="form-group">
+				<input type="number" step="1" class="form-control" placeholder="Strike" ng-model="$ctrl.optionOIModel.strike"/>
+			</div>
+			
+			<div class="form-group">
+				<input type="number" step="1"  class="form-control" placeholder="Expiration(yyMMdd)" ng-model="$ctrl.optionOIModel.expiration"/>
+			</div>
+			<div class="form-group" style="margin-left:10px">
+				<label for="startEventDay">Start Event Day:</label>
+				<input type="date" class="form-control" id="startEventDay" ng-model="$ctrl.optionOIModel.startEventDay"/>
+			</div>
+			<div class="form-group">
+				<label for="endEventDay">End Event Day:</label>
+				<input type="date" class="form-control" id="endEventDay" ng-model="$ctrl.optionOIModel.endEventDay"/>
+			</div>
+			<div class="form-group" style="margin-left:10px">
+				<button type="button" class="btn btn-primary" ng-click="$ctrl.search()">Search</button>
+			</div>
+		</form>
+    </div>
+    <div class="line-chart" style="margin-top:50px">
+    	
+    	<div id="oichart" style="margin:0 auto;"></div>
+    </div>
+</div>
+
+

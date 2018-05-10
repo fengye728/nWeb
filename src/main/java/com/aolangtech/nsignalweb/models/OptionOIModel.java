@@ -2,6 +2,8 @@ package com.aolangtech.nsignalweb.models;
 
 public class OptionOIModel {
 
+	private Long id;
+	
 	private String stockSymbol;
 	
 	private Integer eventDay;	// yyMMdd
@@ -60,5 +62,13 @@ public class OptionOIModel {
 
 	public void setOpenInterest(Integer openInterest) {
 		this.openInterest = openInterest;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

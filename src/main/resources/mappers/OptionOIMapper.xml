@@ -15,9 +15,9 @@
   <select id="selectByEventDay" resultMap="BaseResultMap">
   	SELECT *
   	FROM ${tableName}
-  	WHERE stock_symbol = ${stockSymbol}
+  	WHERE stock_symbol = '${stockSymbol}'
   		AND event_day = ${eventDay}
-  		AND call_put = ${call_put}
+  		AND call_put = '${callPut}'
   		AND expiration = ${expiration}
   		AND strike = ${strike}
   </select>
@@ -25,9 +25,9 @@
   <select id="selectByBetweenEventDay" resultMap="BaseResultMap">
   	SELECT *
   	FROM ${tableName}
-  	WHERE stock_symbol = ${stockSymbol}
+  	WHERE stock_symbol = '${stockSymbol}'
   		AND event_day BETWEEN ${startEventDay} AND ${endEventDay} 
-  		AND call_put = ${call_put}
+  		AND call_put = '${callPut}'
   		AND expiration = ${expiration}
   		AND strike = ${strike}
   	ORDER BY event_day ASC
