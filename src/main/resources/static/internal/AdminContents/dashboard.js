@@ -73,6 +73,7 @@ dashboardApp.config(function($stateProvider){
 			}
 		}).error(function(response){
 			console.log(response);
+			alert("错误：修改密码失败！");
 		});
 	}
 });

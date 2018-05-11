@@ -16,7 +16,7 @@ import com.aolangtech.nsignalweb.services.AuthorizationService;
 
 @RestController
 @RequestMapping(value = "/user")
-public class UserController extends BaseController {
+public class UserController{
 
 	@Autowired
 	AuthorizationService authorizationService;

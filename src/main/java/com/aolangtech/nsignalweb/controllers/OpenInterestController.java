@@ -14,7 +14,7 @@ import com.aolangtech.nsignalweb.services.OptionOIService;
 
 @RestController
 @RequestMapping(value = "/oi")
-public class OpenInterestController extends BaseController {
+public class OpenInterestController{
 	
 	@Autowired
 	OptionOIService optionOIService;

@@ -57,19 +57,6 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 			}
 		};
 		
-		function getFormatData(formData) {
-			result = {};
-			for(var col in formData) {
-				result[col] = formData[col];
-			}
-			result.startEventDay = convertDate2Num(result.startEventDay);
-			result.endEventDay = convertDate2Num(result.endEventDay);
-			return result;
-		}
-		
-		function convertDate2Num(date) {
-			return date.getFullYear() % 100 * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
-		}
 // -------------------- Chart function ---------------------
 		ctrl.drawChart = function(oiList) {
 			option = oiList[0].stockSymbol + oiList[0].strike + oiList[0].callPut + oiList[0].expiration
@@ -79,11 +66,11 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					zoomType : 'x'
 				},
 				title: {                                                                
-					text: '<b>'+ option + '</b>' + ' OI Change'                                            
+					text: '<b>'+ option + '</b>' + ' OI Change'
 				},                                                                      
 				xAxis: {
 					type : 'datetime',
-					tickmarkPlacement: 'on'
+					tickmarkPlacement: 'between'
 				},                                                                      
 				yAxis: {                                                                
 					title: {                                                            
@@ -91,12 +78,12 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					}                                                            
 				},                                                                      
 				tooltip: {                                                              
-					formatter: function() {                                             
-						return Highcharts.dateFormat('%Y/%m/%d', this.x) +' : ' + '<b>'+ this.y + '</b>';
+					formatter: function() {  
+						return formatDate(this.x) +' : ' + '<b>'+ this.y + '</b>';
 					}
 				},
 				legend: {
-					enabled: false                                                      
+					enabled: false
 				},                                                                                                                                       
 				series: [{
 					name: 'Open Interest',
@@ -108,16 +95,37 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 								y : oiList[i].openInterest
 							});
 						}
+						console.log(data);
 						return data;
 					})()
 				}]
 			});                
 			
 		}
+		
+// ------------------------- General Functions --------------------------------------------
+		function getFormatData(formData) {
+			result = {};
+			for(var col in formData) {
+				result[col] = formData[col];
+			}
+			result.stockSymbol = result.stockSymbol.toUpperCase();
+			result.startEventDay = convertDate2Num(result.startEventDay);
+			result.endEventDay = convertDate2Num(result.endEventDay);
+			return result;
+		}
+		
+		function convertDate2Num(date) {
+			return date.getFullYear() % 100 * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
+		}
+		
+		function formatDate(date) {
+			strDate = '20' + convertDate2Num(date);
+			return strDate.substr(0, 4) + '/' + strDate.substr(4, 2) + '/' + strDate.substr(6);
+		}
 // ------------------------- Functions Interact with server -------------------------------
 
 		function getOptionOIBetween(searchOption) {
-			console.log(searchOption);
 			return $http({
 				url :'/oi/between',
 				method : 'POST',
