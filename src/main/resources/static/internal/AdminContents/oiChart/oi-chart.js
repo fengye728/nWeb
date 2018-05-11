@@ -18,8 +18,8 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 			data.strike = 25;
 			data.callPut = 'C';
 			
-			data.startEventDay = 180401;
-			data.endEventDay = 180507;
+			data.startEventDay = 180201;
+			data.endEventDay = 180510;
 			
 			getOptionOIBetween(data).success(function(response){
 				ctrl.drawChart(response);
@@ -28,7 +28,6 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 		
 // ------------------- Functions -----------------------------------------------
 		ctrl.search = function() {
-			console.log(ctrl.optionOIModel);
 			if(ctrl.checkForm()) {
 				// search oi
 				getOptionOIBetween(getFormatData(ctrl.optionOIModel)).success(function(response){
@@ -75,16 +74,16 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 		ctrl.drawChart = function(oiList) {
 			option = oiList[0].stockSymbol + oiList[0].strike + oiList[0].callPut + oiList[0].expiration
 			
-			$('#oichart').highcharts({
+			Highcharts.chart('oichart', {
+				chart : {
+					zoomType : 'x'
+				},
 				title: {                                                                
 					text: '<b>'+ option + '</b>' + ' OI Change'                                            
 				},                                                                      
 				xAxis: {
-					type: 'datetime',
-					tickPixelInterval: 500,
-					endOnTick: true,
-					showLastLabel: true,
-					startOnTick: true
+					type : 'datetime',
+					tickmarkPlacement: 'on'
 				},                                                                      
 				yAxis: {                                                                
 					title: {                                                            
@@ -96,11 +95,11 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 						return Highcharts.dateFormat('%Y/%m/%d', this.x) +' : ' + '<b>'+ this.y + '</b>';
 					}
 				},
-				legend: {                                                               
+				legend: {
 					enabled: false                                                      
 				},                                                                                                                                       
 				series: [{
-					name: 'Open Interest',                                                
+					name: 'Open Interest',
 					data: (function() {
 						var data = []
 						for(var i = 0; i < oiList.length; i++) {
