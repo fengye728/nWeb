@@ -172,7 +172,7 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					zoomType : 'x'
 				},
 				title: {                                                                
-					text: '<b>'+ option + '</b>' + ' ---- Open Interest'
+					text: '<b>'+ option + '</b>' + ' Open Interest'
 				},                                                                      
 				xAxis: {
 					type : 'datetime',
@@ -251,16 +251,15 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 							});
 						}
 						return data;
-					})()
+					})(),
+					zones: [{
+						value: 0,
+						color: '#F4606C'
+					},{
+						color: '#1d953f'
+					}]
 				}],
-				zones: [{
-					value: 0,
-					color: '#ff0000'
-				},{
-					color: '#00ff00'
-				}]
 			});
-			
 		};
 		
 		ctrl.drawStockChart = function(option, quoteList) {
