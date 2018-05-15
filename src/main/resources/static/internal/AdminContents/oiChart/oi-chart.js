@@ -64,9 +64,10 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					$('#drawBtn')[0].disabled = false;
 					$('#drawBtn')[0].textContent = 'Draw';
 				});
+				
 				// search stock
 				getStockQuoteBetween(option).success(function(response){
-					ctrl.drawStockChart(option, response);
+					ctrl.drawStockChart(getFormatOptionData(ctrl.optionOIModel), response);
 				}).error(function(response){
 					toastr.error(response, 'Server Error:');
 				});
@@ -171,7 +172,7 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					zoomType : 'x'
 				},
 				title: {                                                                
-					text: '<b>'+ option + '</b>' + ' ---- OI Chart'
+					text: '<b>'+ option + '</b>' + ' ---- Open Interest'
 				},                                                                      
 				xAxis: {
 					type : 'datetime',
@@ -215,7 +216,8 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 			
 			Highcharts.chart('oiChangeChart', {
 				chart : {
-					zoomType : 'x'
+					zoomType : 'x',
+					type: 'column'
 				},
 				title: {                                                                
 					text: '<b>'+ option + '</b>' + ' Open Interest Change'
@@ -250,8 +252,14 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 						}
 						return data;
 					})()
+				}],
+				zones: [{
+					value: 0,
+					color: '#ff0000'
+				},{
+					color: '#00ff00'
 				}]
-			});                
+			});
 			
 		};
 		
@@ -262,6 +270,7 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 				chart : {
 					zoomType : 'x'
 				},
+				colors: ['#8bbc21'],
 				title: {                                                                
 					text: '<b>'+ stock + '</b>' + ' Stock Price'
 				},                                                                      
