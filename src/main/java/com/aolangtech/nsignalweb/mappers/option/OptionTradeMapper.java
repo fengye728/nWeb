@@ -5,7 +5,7 @@
  * @author AOLANG
  *
  */
-package com.aolangtech.nsignalweb.mappers;
+package com.aolangtech.nsignalweb.mappers.option;
 
 import java.util.List;
 

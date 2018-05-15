@@ -29,7 +29,7 @@
 				<button id="drawBtn" type="button" class="btn btn-primary" ng-click="$ctrl.draw()">Draw</button>
 			</div>
 		</form>
-		<form class="form-inline" style="margin-top:5px">
+		<form class="form-inline" style="margin-top:10px">
 			<div class="form-group">
 				<label for="minOIChangeInput" style="margin-right:10px">OI Change :</label>
 				<input id="minOIChangeInput" type="number" step="1"  class="form-control" placeholder="Min OI Change" ng-model="$ctrl.optionOIChange.minOIChange"/>
@@ -45,6 +45,7 @@
     <div class="line-chart" style="margin-top:50px">
     	
     	<div id="oichart" style="margin:0 auto;"></div>
+    	<div id="stockChart" style="margin:0 auto;"></div>
     	<div id="oiChangeChart" style="margin:0 auto;"></div>
     </div>
     

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aolangtech.nsignalweb.mappers.AuthorizationModelMapper;
+import com.aolangtech.nsignalweb.mappers.option.AuthorizationModelMapper;
 import com.aolangtech.nsignalweb.models.AuthorizationModel;
 import com.aolangtech.nsignalweb.services.AuthorizationService;
 

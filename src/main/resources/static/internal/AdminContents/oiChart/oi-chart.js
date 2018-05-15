@@ -27,6 +27,10 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 			data.startEventDay = 180201;
 			data.endEventDay = 180510;
 			
+			getStockQuoteBetween(data).success(function(response){
+				console.log(response);
+				ctrl.drawStockChart(data, response)
+			});
 			getOptionOIBetween(data).success(function(response){
 				ctrl.drawOIChart(response);
 				ctrl.drawOIChangeChart(response)
@@ -40,7 +44,8 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 				$('#drawBtn')[0].disabled = true;
 				$('#drawBtn')[0].textContent = 'Drawing';
 				// search oi
-				getOptionOIBetween(getFormatOptionData(ctrl.optionOIModel)).success(function(response){
+				option = getFormatOptionData(ctrl.optionOIModel);
+				getOptionOIBetween(option).success(function(response){
 					if(response.length > 0) {
 						// draw chart
 						ctrl.drawOIChart(response);
@@ -58,6 +63,12 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					// enable button
 					$('#drawBtn')[0].disabled = false;
 					$('#drawBtn')[0].textContent = 'Draw';
+				});
+				// search stock
+				getStockQuoteBetween(option).success(function(response){
+					ctrl.drawStockChart(option, response);
+				}).error(function(response){
+					toastr.error(response, 'Server Error:');
 				});
 			} else {
 				// leak params
@@ -169,8 +180,11 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 				yAxis: {                                                                
 					title: {                                                            
 						text: 'Open Interest'                                                   
-					}                                                            
-				},                                                                      
+					}
+				},
+				legend: {
+					enabled: false
+				},
 				tooltip: {                                                              
 					formatter: function() {  
 						return formatDate(this.x) +' : ' + '<b>'+ this.y + '</b>';
@@ -239,7 +253,51 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 				}]
 			});                
 			
-		};		
+		};
+		
+		ctrl.drawStockChart = function(option, quoteList) {
+			stock = option.stockSymbol;
+			
+			Highcharts.chart('stockChart', {
+				chart : {
+					zoomType : 'x'
+				},
+				title: {                                                                
+					text: '<b>'+ stock + '</b>' + ' Stock Price'
+				},                                                                      
+				xAxis: {
+					type : 'datetime',
+					tickmarkPlacement: 'between'
+				},                                                                      
+				yAxis: {
+					title: {                                                            
+						text: 'Price'                                                   
+					}                                                            
+				},                                                                      
+				tooltip: {                                                              
+					formatter: function() {  
+						return formatDate(this.x) +' : ' + '<b>'+ this.y + '</b>';
+					}
+				},
+				legend: {
+					enabled: false
+				},                                                                                                                                       
+				series: [{
+					name: 'Stock Price',
+					data: (function() {
+						var data = []
+						for(var i = 1; i < quoteList.length; i++) {
+							x_date = new Date(quoteList[i].quoteDate / 10000, quoteList[i].quoteDate % 10000 / 100 - 1, quoteList[i].quoteDate % 100);
+							data.push({
+								x : x_date,
+								y : quoteList[i].close
+							});
+						}
+						return data;
+					})()
+				}]
+			});  			
+		};
 // ------------------------- General Functions --------------------------------------------
 		function getFormatOptionData(formData) {
 			result = {};
@@ -265,6 +323,14 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 		function getOptionOIBetween(searchOption) {
 			return $http({
 				url :'/oi/between',
+				method : 'POST',
+				data : searchOption
+			});
+		}
+		
+		function getStockQuoteBetween(searchOption) {
+			return $http({
+				url: '/stock/betweenQuote',
 				method : 'POST',
 				data : searchOption
 			});

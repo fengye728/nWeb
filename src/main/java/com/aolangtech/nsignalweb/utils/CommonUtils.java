@@ -5,7 +5,7 @@
  * @author SEELE
  *
  */
-package com.aolangtech.nsignalweb.Utils;
+package com.aolangtech.nsignalweb.utils;
 
 import org.apache.log4j.Logger;
 
@@ -35,6 +35,9 @@ public class CommonUtils {
 		return (quarter / 10 + ( (quarter + 1) % 10 / 5) ) * 10 + (quarter % 10 % 4 + 1);
 	}
 	
+	public static int optionDate2StockDate(Integer date) {
+		return 20000000 + date;
+	}
 	/**
 	 * Check if the trade1 and trade2 is same option.
 	 * @param trade1
