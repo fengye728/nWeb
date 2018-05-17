@@ -195,12 +195,22 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					name: 'Open Interest',
 					data: (function() {
 						var data = []
-						for(var i = 1; i < oiList.length; i++) {
+						for(var i = 0; i < oiList.length; i++) {
 							// add event day for satisfied Liu
-							x_date = new Date(oiList[i].eventDay / 10000 + 2000, oiList[i].eventDay % 10000 / 100 - 1, oiList[i].eventDay % 100);
+							if(i == oiList.length - 1) {
+								// last one
+								// add date one
+								record = oiList[i];
+								x_date = new Date(record.eventDay / 10000 + 2000, record.eventDay % 10000 / 100 - 1, record.eventDay % 100);
+								x_date.setDate( x_date.getDate() + 1);
+							} else {
+								// set date to next record date
+								record = oiList[i + 1];
+								x_date = new Date(record.eventDay / 10000 + 2000, record.eventDay % 10000 / 100 - 1, record.eventDay % 100);
+							}
 							data.push({
 								x : x_date,
-								y : oiList[i - 1].openInterest
+								y : oiList[i].openInterest
 							});
 						}
 						return data;
