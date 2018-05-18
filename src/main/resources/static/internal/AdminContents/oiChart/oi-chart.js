@@ -50,13 +50,27 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 						// draw chart
 						ctrl.drawOIChart(response);
 						ctrl.drawOIChangeChart(response);
+						// search stock
+						// reset start and end date
+						option = getFormatOptionData(ctrl.optionOIModel);
+						option.startEventDay = response[0].eventDay;
+						option.endEventDay = response[response.length - 1].eventDay;
+						getStockQuoteBetween(option).success(function(response){
+							ctrl.drawStockChart(getFormatOptionData(ctrl.optionOIModel), response);
+							// enable button
+							$('#drawBtn')[0].disabled = false;
+							$('#drawBtn')[0].textContent = 'Draw';
+						}).error(function(response){
+							toastr.error(response, 'Server Error:');
+							// enable button
+							$('#drawBtn')[0].disabled = false;
+							$('#drawBtn')[0].textContent = 'Draw';
+						});
 						
 					} else {
 						toastr.info('No Open Interest', 'Draw OI Chart');
 					}
-					// enable button
-					$('#drawBtn')[0].disabled = false;
-					$('#drawBtn')[0].textContent = 'Draw';
+
 				}).error(function(response){
 					toastr.error(response, 'Server Error:');
 					
@@ -65,12 +79,7 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					$('#drawBtn')[0].textContent = 'Draw';
 				});
 				
-				// search stock
-				getStockQuoteBetween(option).success(function(response){
-					ctrl.drawStockChart(getFormatOptionData(ctrl.optionOIModel), response);
-				}).error(function(response){
-					toastr.error(response, 'Server Error:');
-				});
+
 			} else {
 				// leak params
 				toastr.error('Lack parameters!');
@@ -265,7 +274,7 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 						value: 0,
 						color: '#F4606C'
 					},{
-						color: '#1d953f'
+						color: '#7cb5ec'
 					}]
 				}],
 			});
