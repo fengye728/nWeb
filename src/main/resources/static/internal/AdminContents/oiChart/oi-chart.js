@@ -69,6 +69,9 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 						
 					} else {
 						toastr.info('No Open Interest', 'Draw OI Chart');
+						// enable button
+						$('#drawBtn')[0].disabled = false;
+						$('#drawBtn')[0].textContent = 'Draw';
 					}
 
 				}).error(function(response){
