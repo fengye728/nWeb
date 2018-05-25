@@ -27,12 +27,12 @@ public class StockDataSourceConfig {
 	
     @Bean(name = "stockDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.stock")
-    public DataSource testDataSource() {
+    public DataSource stockDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "stockSqlSessionFactory")
-    public SqlSessionFactory testSqlSessionFactory(@Qualifier("stockDataSource") DataSource dataSource) throws Exception {
+    public SqlSessionFactory stockSqlSessionFactory(@Qualifier("stockDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mappers/stock/*.xml"));
@@ -40,12 +40,12 @@ public class StockDataSourceConfig {
     }
 
     @Bean(name = "stockTransactionManager")
-    public DataSourceTransactionManager testTransactionManager(@Qualifier("stockDataSource") DataSource dataSource) {
+    public DataSourceTransactionManager stockTransactionManager(@Qualifier("stockDataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean(name = "stockSqlSessionTemplate")
-    public SqlSessionTemplate testSqlSessionTemplate(@Qualifier("stockSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+    public SqlSessionTemplate stockSqlSessionTemplate(@Qualifier("stockSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 }

@@ -34,7 +34,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		return authorizationModelMapper.selectByUsername(username);
 	}
 	
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
+	@Transactional(value = "optionTransactionManager", rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public int updatePassword(String username, String password) {
 		if(username == null || password == null) {
@@ -44,7 +44,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
+	@Transactional(value = "optionTransactionManager", rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public int removeUserByUsername(String username) {
 		if(username == null) {
@@ -53,7 +53,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		return authorizationModelMapper.softDeleteByUsername(username);
 	}
 
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
+	@Transactional(value = "optionTransactionManager", rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public int addUser(AuthorizationModel user) {
 		if(user == null || user.getUsername() == null || user.getPassword() == null || user.getRole() == null) {
@@ -62,7 +62,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		return authorizationModelMapper.insert(user);
 	}
 
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
+	@Transactional(value = "optionTransactionManager", rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public int removeUserByIdList(List<Long> idList) {
 		int count = 0;

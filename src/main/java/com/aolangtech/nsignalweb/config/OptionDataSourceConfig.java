@@ -29,13 +29,13 @@ public class OptionDataSourceConfig {
     @Bean(name = "optionDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.option")
     @Primary
-    public DataSource testDataSource() {
+    public DataSource optionDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "optionSqlSessionFactory")
     @Primary
-    public SqlSessionFactory testSqlSessionFactory(@Qualifier("optionDataSource") DataSource dataSource) throws Exception {
+    public SqlSessionFactory optionSqlSessionFactory(@Qualifier("optionDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mappers/option/*.xml"));
@@ -44,13 +44,13 @@ public class OptionDataSourceConfig {
 
     @Bean(name = "optionTransactionManager")
     @Primary
-    public DataSourceTransactionManager testTransactionManager(@Qualifier("optionDataSource") DataSource dataSource) {
+    public DataSourceTransactionManager optionTransactionManager(@Qualifier("optionDataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean(name = "optionSqlSessionTemplate")
     @Primary
-    public SqlSessionTemplate testSqlSessionTemplate(@Qualifier("optionSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+    public SqlSessionTemplate optionSqlSessionTemplate(@Qualifier("optionSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 }
