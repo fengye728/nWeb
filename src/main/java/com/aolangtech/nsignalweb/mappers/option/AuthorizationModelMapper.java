@@ -21,4 +21,6 @@ public interface AuthorizationModelMapper {
 	AuthorizationModel selectByUsername(String username);
 	
 	int updateUser(AuthorizationModel user);
+	
+	int createAuthorizationTable();
 } 

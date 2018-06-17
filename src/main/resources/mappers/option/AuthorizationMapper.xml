@@ -10,6 +10,19 @@
     <result column="is_active" property="isActive" />
   </resultMap>
   
+  <update id="createAuthorizationTable">
+  	CREATE TABLE IF NOT EXISTS "authorization" 
+	(
+	id bigserial PRIMARY KEY,
+	username text NOT NULL,
+	"password" varchar(50) NOT NULL,
+	role text NOT NULL DEFAULT 'ROLE_USER',
+	is_active boolean NOT NULL DEFAULT true,
+	
+	CONSTRAINT authorization_unique UNIQUE(username)
+	);
+  </update>
+  
   <select id="selectAll" resultMap="BaseResultMap">
   	SELECT *
   	FROM "authorization"

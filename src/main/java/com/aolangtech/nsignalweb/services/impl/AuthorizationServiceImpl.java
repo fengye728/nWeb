@@ -79,5 +79,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 		return authorizationModelMapper.updateUser(user);
 	}
+
+	@Transactional(value = "optionTransactionManager", rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
+	@Override
+	public int createAuthorizationTable() {
+		return authorizationModelMapper.createAuthorizationTable();
+		
+	}
 	
 }

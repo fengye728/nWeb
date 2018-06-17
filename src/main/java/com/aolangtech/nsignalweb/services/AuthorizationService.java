@@ -27,4 +27,5 @@ public interface AuthorizationService {
 	
 	int updateUser(AuthorizationModel user);
 	
+	int createAuthorizationTable();
 }
