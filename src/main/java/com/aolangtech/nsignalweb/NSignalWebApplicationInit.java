@@ -1,5 +1,7 @@
 package com.aolangtech.nsignalweb;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -17,12 +19,15 @@ public class NSignalWebApplicationInit implements ApplicationRunner{
 	public void run(ApplicationArguments args) throws Exception {
 		// create authorization table
 		authorizationService.createAuthorizationTable();
-		// add initial user
-		AuthorizationModel initUser = new AuthorizationModel();
-		initUser.setUsername("admin");
-		initUser.setPassword("123");
-		initUser.setRole("ROLE_ADMIN");
-		authorizationService.addUser(initUser);
+		List<AuthorizationModel> userlist = authorizationService.getAllUsers();
+		if(userlist.isEmpty()) {
+			// add initial user
+			AuthorizationModel initUser = new AuthorizationModel();
+			initUser.setUsername("admin");
+			initUser.setPassword("123");
+			initUser.setRole("ROLE_ADMIN");
+			authorizationService.addUser(initUser);
+		}
 	}
 
 }
