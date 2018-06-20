@@ -27,9 +27,16 @@ dashboardApp.config(function($stateProvider){
 		   component : 'userManagement'
    };
    
+   var downloadPageState = {
+		   name : 'downloadPage',
+		   url: '/download-page',
+		   component : 'downloadPage'
+   };
+   
     $stateProvider.state(gourdSearchState);
     $stateProvider.state(oiChartState);
     $stateProvider.state(userManageState);
+    $stateProvider.state(downloadPageState);
     
 }).config(function($httpProvider){
 	// disable cache
