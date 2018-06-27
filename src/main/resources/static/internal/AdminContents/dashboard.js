@@ -45,6 +45,7 @@ dashboardApp.config(function($stateProvider){
 .controller('dashboardCtrl', function($scope, $http){
 	// get username
 	var username = window.tsc.utils.getValueFromCookieByParam(window.tsc.constants.COOKIE_PARAM.USERNAME);
+
 	$scope.logedUser = {};
 	$scope.logedUser.username = username;
 	
@@ -84,4 +85,14 @@ dashboardApp.config(function($stateProvider){
 		});
 	}
 });
+// get cookie
 $('#CSRF-TOKEN')[0].value = window.tsc.utils.getValueFromCookieByParam(window.tsc.constants.COOKIE_PARAM.TOKEN);
+
+// set user display
+var userrole = window.tsc.utils.getValueFromCookieByParam("userrole");
+
+if(userrole == 'ROLE_ADMIN') {
+	$('#userMagLink')[0].style.display = 'block';
+} else {
+	$('#userMagLink')[0].style.display = 'none';
+}

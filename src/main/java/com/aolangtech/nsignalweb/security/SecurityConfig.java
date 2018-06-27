@@ -8,6 +8,7 @@
 package com.aolangtech.nsignalweb.security;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -21,6 +22,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -30,6 +32,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	final static String COOKIE_USER_ID = "username";
+	final static String COOKIE_USER_ROLE = "userrole";
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -78,9 +81,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 					Authentication authentication) throws IOException, ServletException {
 				
+				// Add user name and role to cookie
 				String username = ((User)authentication.getPrincipal()).getUsername();
-
+				Collection<GrantedAuthority> userRoleList = ((User)authentication.getPrincipal()).getAuthorities();
+				String userrole = null;
+				for(GrantedAuthority role : userRoleList) {
+					userrole = role.getAuthority();
+				}
 				response.addCookie(new Cookie(COOKIE_USER_ID,  username));
+				response.addCookie(new Cookie(COOKIE_USER_ROLE,  userrole));
 				response.sendRedirect("/admin");
 			}
 			
