@@ -28,6 +28,8 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
+import com.aolangtech.nsignalweb.constants.CommonConstants;
+
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
@@ -39,7 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 				.antMatchers("/global/**", "/external/**").permitAll()
-				//.antMatchers("/accident/**", "/charge/**", "/complaint/**", "/driver/**", "/internal/**").authenticated()
+				//.antMatchers("/oi/**", "/stock/**", "/user/**").authenticated()
+				.antMatchers("/user/**").access("hasRole('" + CommonConstants.ROLEE_ADMIN + "')")
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
