@@ -62,7 +62,7 @@
   	UPDATE "authorization"
   	SET username = #{username},
   		password = #{password},
-  		role = '#{role}'
+  		role = #{role}
   	WHERE id = #{id}
   </update>
 </mapper>
