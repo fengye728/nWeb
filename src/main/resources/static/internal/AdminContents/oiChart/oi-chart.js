@@ -15,6 +15,11 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 				maxOIChange : null
 		};
 		ctrl.optionOIChangeResult = [];
+
+		// date initialization
+		ctrl.optionOIModel.endEventDay = new Date();
+		ctrl.optionOIModel.startEventDay = new Date();
+		ctrl.optionOIModel.startEventDay.setDate(ctrl.optionOIModel.startEventDay.getDate() - 90)
 		
 // ------------------- Controller Functions -----------------------------------------------		
 		ctrl.searchFake = function() {
