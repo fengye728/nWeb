@@ -104,9 +104,9 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					if(response.length > 0) {
 						// process oi change data
 						var data = []
-						for(var i = 1; i < response.length; i++) {
+						for(var i = 0; i < response.length - 1; i++) {
 							x_date = new Date(response[i].eventDay / 10000 + 2000, response[i].eventDay % 10000 / 100 - 1, response[i].eventDay % 100);
-							y_oi = response[i].openInterest - response[i - 1].openInterest;
+							y_oi = response[i + 1].openInterest - response[i].openInterest;
 							
 							if(ctrl.optionOIChange.minOIChange != null && y_oi < ctrl.optionOIChange.minOIChange) {
 								continue;
@@ -213,18 +213,7 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					data: (function() {
 						var data = []
 						for(var i = 0; i < oiList.length; i++) {
-							// add event day for satisfied Liu
-							if(i == oiList.length - 1) {
-								// last one
-								// add date one
-								record = oiList[i];
-								x_date = new Date(record.eventDay / 10000 + 2000, record.eventDay % 10000 / 100 - 1, record.eventDay % 100);
-								x_date.setDate( x_date.getDate() + 1);
-							} else {
-								// set date to next record date
-								record = oiList[i + 1];
-								x_date = new Date(record.eventDay / 10000 + 2000, record.eventDay % 10000 / 100 - 1, record.eventDay % 100);
-							}
+							x_date = new Date(oiList[i].eventDay / 10000 + 2000, oiList[i].eventDay % 10000 / 100 - 1, oiList[i].eventDay % 100);
 							data.push({
 								x : x_date,
 								y : oiList[i].openInterest
@@ -269,11 +258,11 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					name: 'Open Interest Change',
 					data: (function() {
 						var data = []
-						for(var i = 1; i < oiList.length; i++) {
+						for(var i = 0; i < oiList.length - 1; i++) {
 							x_date = new Date(oiList[i].eventDay / 10000 + 2000, oiList[i].eventDay % 10000 / 100 - 1, oiList[i].eventDay % 100);
 							data.push({
 								x : x_date,
-								y : oiList[i].openInterest - oiList[i - 1].openInterest
+								y : oiList[i + 1].openInterest - oiList[i].openInterest
 							});
 						}
 						return data;
@@ -320,7 +309,7 @@ angular.module(window.tsc.constants.DASHBOARD_APP).component('oiChart', {
 					name: 'Stock Price',
 					data: (function() {
 						var data = []
-						for(var i = 1; i < quoteList.length; i++) {
+						for(var i = 0; i < quoteList.length; i++) {
 							x_date = new Date(quoteList[i].quoteDate / 10000, quoteList[i].quoteDate % 10000 / 100 - 1, quoteList[i].quoteDate % 100);
 							data.push({
 								x : x_date,
